@@ -1,0 +1,131 @@
+---
+title: "Why Do Different Agencies Use Different Terms for the Same Things?"
+author: Rafael del Espejo
+description: "A practical look at how terminology harmonization should work in DRRM systems, and why it's so hard to pull off."
+tags: ["DRRM", "ontology", "data governance", "local government", "interoperability"]
+date: 2025-07-31
+modified: 2025-08-01
+---
+
+If you’ve worked in disaster risk reduction, geospatial planning, or exposure mapping in the Philippines, you’ve probably run into this frustrating situation:
+
+- **DHSUD** talks about “lifelines,”  
+- **NHA** uses “critical infrastructure,”  
+- **LGUs** log their own categories like “barangay facilities” or “evacuation centers,”  
+- And the **DRRM office** might treat *all* of them as “critical facilities.”
+
+And you wonder:
+
+> “Why isn’t there just one standardized set of terms? Isn’t this stuff supposed to be harmonized by now?”
+
+Short answer: **because harmonization is hard — and no one wants to give up their vocabulary.**
+
+---
+
+## The Problem with Terminology
+
+
+Every agency builds its own system — with its own definitions, spreadsheets, and database structure.
+
+Then they expect others to integrate — without adapting anything. Now multiply that by all the national agencies and thousands of LGUs. You end up with a mess of mismatched terms and incompatible systems — especially when trying to build a shared **exposure database**.
+
+---
+
+## How Harmonization *Should* Work
+
+### 1. Build a Mapping Table First
+
+Step one is to figure out what terms actually mean the same thing — and map them. You don’t need to force renaming; just agree on **semantic equivalence**.
+
+
+Example mapping table:
+```txt
+| LGU Term               | DHSUD Term   | NHA Term               | Harmonized Term             |
+|------------------------|--------------|------------------------|-----------------------------|
+| Barangay Health Center | Lifeline     | Critical Facility      | Health Facility (Tier 1)    |
+| Basketball Court       | Public Asset | Community Structure    | Non-Critical Facility       |
+| Water District Office  | Lifeline     | Critical Infrastructure| Water Utility Office        |
+```
+
+No need to make LGUs change how they encode data. You just translate it during processing.
+
+---
+
+### 2. Use Shared Vocabularies (Even If They're External)
+
+You don’t have to reinvent the wheel. There are existing vocabularies that work:
+
+- [UNDRR Terminology](https://www.undrr.org/terminology)
+- [ISO 22300 Series](https://www.iso.org/standard/50296.html) (security and resilience)
+- INSPIRE/Sendai Framework schemas
+
+Some of the more flexible systems don’t even rely on fixed field names — they use tagging, schema registries, or RDF/JSON-LD.
+
+For example, under the hood, a database record might look like:
+
+```json
+{
+  "asset_name": "Barangay Health Center",
+  "asset_type": "facility",
+  "function_tags": ["health", "lifeline", "critical"]
+}
+```
+
+---
+
+### 3. Maintain and Publish a Shared Schema
+
+
+Someone needs to own and publish the working version of the harmonized schema:
+
++* Store it on GitHub, GovCloud, or wherever it’s accessible
++* Version control it
++* Link to docs and sample implementations
+
+Agencies can keep their own terms internally, as long as there’s a translation layer. The schema just needs to flag or resolve mismatches — and evolve when edge cases come up.
+
+---
+
+### 4. Back It Up with Policy (and Actual Incentives)
+
+
+You can’t fix this with tech alone. Agencies won’t harmonize unless:
+
+* There’s an agreed baseline set of terms
+* DILG or OCD pushes official guidance
+* LGUs have something to gain — access to funding, tools, or national platforms
+
+Compliance should be linked to access. If you want to use the shared DRRM tools, align your vocabulary.
+
+---
+
+## Why This Usually Breaks Down
+
+
+* Agencies guard their own vocabularies because it reflects their mandates.
+* Legacy databases are expensive and risky to change.
+* No one owns or maintains the vocabulary list full-time.
+* LGUs are just trying to get the system to accept their data without errors.
+
+---
+
+## What Can Be Done?
+
+Here’s what a realistic path forward might look like:
+
+1. Agree on a shared vocabulary table across agencies.
+2. Allow mappings instead of renaming fields.
+3. Version and document the schema publicly.
+4. Set up inter-agency groups with actual authority to approve changes.
+5. Use tagging or classification systems, not fixed field names.
+
+---
+
+## Final Thoughts
+
+If the goal is a real national DRR platform, the foundation isn’t just maps or dashboards — it’s **shared vocabularies**.
+
+We need fewer silos, open schemas, and an honest effort to coordinate — even when it means compromising on familiar terms.
+
+
+If the legend doesn’t make sense, neither will the map. Agreeing on terminology is the first step toward making systems work together.
